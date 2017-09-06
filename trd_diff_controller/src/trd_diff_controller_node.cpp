@@ -21,9 +21,17 @@ private:
     MessageManager message_manager;
 };
 
-TRDDiffController::TRDDiffController(){}
-TRDDiffController::TRDDiffController(const char* serial_port_name, int baudrate){
-    message_manager.connect(serial_port_name, baudrate);
+TRDDiffController::TRDDiffController(){
+    std::string serialport_name;
+    int baudrate;
+    ros::NodeHandle nh_private("~");
+    nh_private.param<std::string>("serialport_name", serialport_name, "/dev/ttyUSB0");
+    nh_private.param("baudrate", baudrate, 38400);
+    ROS_INFO("serialport: %s", serialport_name.c_str());
+    ROS_INFO("baudrate: %d", baudrate);
+    if(message_manager.connect(serialport_name.c_str(), baudrate) < 0){
+        return;
+    }
     message_manager.setTimeout();
     message_manager.resetEncoder();
     message_manager.resetBase();
@@ -32,21 +40,25 @@ TRDDiffController::TRDDiffController(const char* serial_port_name, int baudrate)
     sub_speed = nh.subscribe("/cmd_vel", 10, &TRDDiffController::cmdVelCallback, this);
     // ros spin
     ros::Rate loop_rate(10);
-    while(true){
-        message_manager.getEncoderIMU();
-        imu_msg.linear_acceleration.x = message_manager.imu_linear_accel_x;
-        imu_msg.linear_acceleration.y = message_manager.imu_linear_accel_y;
-        imu_msg.linear_acceleration.z = message_manager.imu_linear_accel_z;
-        imu_msg.angular_velocity.x = message_manager.imu_angular_vel_x;
-        imu_msg.angular_velocity.y = message_manager.imu_angular_vel_y;
-        imu_msg.angular_velocity.z = message_manager.imu_angular_vel_z;
-        pub_imu.publish(imu_msg);
-        ROS_INFO("IMU angluar speed x: %f, y: %f, z: %f", \
-                message_manager.imu_angular_vel_x, message_manager.imu_angular_vel_y, message_manager.imu_angular_vel_z);
-        ROS_INFO("IMU linear accel x: %f, y: %f, z: %f", \
-                message_manager.imu_linear_accel_x, message_manager.imu_linear_accel_y, message_manager.imu_linear_accel_z);
-        ROS_INFO("IMU orientation x: %f, y: %f, z: %f", \
-                message_manager.imu_orientation_x, message_manager.imu_orientation_y, message_manager.imu_orientation_z);
+    while(nh.ok()){
+        if(message_manager.getEncoderIMU() < 0){
+            ROS_WARN("Get encoder_imu failed.");
+        }
+        else{
+            imu_msg.linear_acceleration.x = message_manager.imu_linear_accel_x;
+            imu_msg.linear_acceleration.y = message_manager.imu_linear_accel_y;
+            imu_msg.linear_acceleration.z = message_manager.imu_linear_accel_z;
+            imu_msg.angular_velocity.x = message_manager.imu_angular_vel_x;
+            imu_msg.angular_velocity.y = message_manager.imu_angular_vel_y;
+            imu_msg.angular_velocity.z = message_manager.imu_angular_vel_z;
+            pub_imu.publish(imu_msg);
+            ROS_INFO("IMU angluar speed x: %f, y: %f, z: %f", \
+                    message_manager.imu_angular_vel_x, message_manager.imu_angular_vel_y, message_manager.imu_angular_vel_z);
+            ROS_INFO("IMU linear accel x: %f, y: %f, z: %f", \
+                    message_manager.imu_linear_accel_x, message_manager.imu_linear_accel_y, message_manager.imu_linear_accel_z);
+            ROS_INFO("IMU orientation x: %f, y: %f, z: %f", \
+                    message_manager.imu_orientation_x, message_manager.imu_orientation_y, message_manager.imu_orientation_z);
+        }
         ros::spinOnce();
         loop_rate.sleep();
     }
@@ -76,7 +88,7 @@ void TRDDiffController::cmdVelCallback(const geometry_msgs::Twist &msg){
 
 int main(int argc, char* argv[]){
     ros::init(argc, argv, "trd_diff_controller_node");
-    TRDDiffController trd_diff_controller("/dev/ttyUSB0", 38400);
+    TRDDiffController trd_diff_controller;
     return 0;
 }
 

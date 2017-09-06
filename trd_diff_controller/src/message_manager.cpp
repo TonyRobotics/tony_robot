@@ -8,13 +8,13 @@ MessageManager::MessageManager(){
 }
 int MessageManager::connect(const char *serial_port_name, const int baudrate){
     if(connect_flag){
-        return 1;
-    }
-    if(openSerialPort(&serial_handler, serial_port_name) < 0){
         return -1;
     }
-    if(setupSerialPort(serial_handler) < 0){
+    if(openSerialPort(&serial_handler, serial_port_name) < 0){
         return -2;
+    }
+    if(setupSerialPort(serial_handler) < 0){
+        return -3;
     }
     connect_flag = true;
     return 0;
@@ -25,7 +25,7 @@ int MessageManager::disconnect(){
     return 0;
 }
 
-void MessageManager::getEncoderIMU(){
+int MessageManager::getEncoderIMU(){
     writeData(serial_handler, msg_get_encoder_imu.data, msg_get_encoder_imu.len);
     usleep(50000);
     rx_message.len = readData(serial_handler, rx_message.data, rx_message.EncoderIMU);
@@ -69,7 +69,9 @@ void MessageManager::getEncoderIMU(){
         imu_tmp  = (rx_message.data[27]&0xFF) << 8;
         imu_tmp |= (rx_message.data[28]&0xFF);
         imu_orientation_z = 1.0*imu_tmp / 100;
+        return 0;
     }
+    return -1;
 }
 void MessageManager::setSpeed(char speed_left, char speed_right){
     msg_set_speed_left.loadSpeed(speed_left);

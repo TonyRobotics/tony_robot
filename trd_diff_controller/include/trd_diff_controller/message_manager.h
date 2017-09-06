@@ -71,7 +71,7 @@ public:
     int connect(const char *serial_port_name, const int baudrate);
     int disconnect();
     // get
-    void getEncoderIMU();
+    int getEncoderIMU();
     // set
     void setSpeed(char speed_left, char speed_right);
     void setMode();
