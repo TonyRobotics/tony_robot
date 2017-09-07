@@ -13,10 +13,8 @@ public:
     int getEncoderIMU();
     // set
     void setSpeed(char speed_left, char speed_right);
-    void setMode();
     void setTimeout();
     void resetEncoder();
-    void resetBase();
     int32_t encoder_left, encoder_right;
     double imu_linear_accel_x, imu_linear_accel_y, imu_linear_accel_z; 
     double imu_angular_vel_x, imu_angular_vel_y, imu_angular_vel_z;
@@ -33,7 +31,6 @@ private:
     SendMessageSetSpeedRight msg_set_speed_right;
     SendMessageSetTimeout msg_set_timeout;
     SendMessageResetEncoder msg_reset_encoder;
-    SendMessageResetBase msg_reset_base;
     // rx msg
     RxMessage rx_message;
 };

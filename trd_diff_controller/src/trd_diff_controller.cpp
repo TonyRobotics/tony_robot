@@ -13,7 +13,6 @@ TRDDiffController::TRDDiffController(){
     }
     message_manager.setTimeout();
     message_manager.resetEncoder();
-    message_manager.resetBase();
     pub_imu = nh.advertise<sensor_msgs::Imu>("imu", 10);
     pub_odom = nh.advertise<nav_msgs::Odometry>("odom", 10);
     sub_speed = nh.subscribe("/cmd_vel", 10, &TRDDiffController::cmdVelCallback, this);
@@ -31,12 +30,12 @@ TRDDiffController::TRDDiffController(){
             imu_msg.angular_velocity.y = message_manager.imu_angular_vel_y;
             imu_msg.angular_velocity.z = message_manager.imu_angular_vel_z;
             pub_imu.publish(imu_msg);
-            ROS_INFO("IMU angluar speed x: %f, y: %f, z: %f", \
-                    message_manager.imu_angular_vel_x, message_manager.imu_angular_vel_y, message_manager.imu_angular_vel_z);
-            ROS_INFO("IMU linear accel x: %f, y: %f, z: %f", \
-                    message_manager.imu_linear_accel_x, message_manager.imu_linear_accel_y, message_manager.imu_linear_accel_z);
-            ROS_INFO("IMU orientation x: %f, y: %f, z: %f", \
-                    message_manager.imu_orientation_x, message_manager.imu_orientation_y, message_manager.imu_orientation_z);
+            //ROS_INFO("IMU angluar speed x: %f, y: %f, z: %f", \
+            //        message_manager.imu_angular_vel_x, message_manager.imu_angular_vel_y, message_manager.imu_angular_vel_z);
+            //ROS_INFO("IMU linear accel x: %f, y: %f, z: %f", \
+            //        message_manager.imu_linear_accel_x, message_manager.imu_linear_accel_y, message_manager.imu_linear_accel_z);
+            //ROS_INFO("IMU orientation x: %f, y: %f, z: %f", \
+            //        message_manager.imu_orientation_x, message_manager.imu_orientation_y, message_manager.imu_orientation_z);
         }
         ros::spinOnce();
         loop_rate.sleep();

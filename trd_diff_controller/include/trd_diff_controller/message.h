@@ -40,10 +40,6 @@ class SendMessageResetEncoder : public SendMessage{
 public:
     SendMessageResetEncoder();
 };
-class SendMessageResetBase : public SendMessage{
-public:
-    SendMessageResetBase();
-};
 
 #define RX_MAXLEN 256
 class RxMessage{
@@ -54,6 +50,7 @@ public:
     char data[RX_MAXLEN];
     bool isMsgValid();
     enum MsgType{
+        ROGER = 5,
         Mode = 6,
         ERROR = 6,
         VC = 8,

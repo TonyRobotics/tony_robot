@@ -60,11 +60,6 @@ SendMessageResetEncoder::SendMessageResetEncoder(){
     data[3] = 0x35;
     makeMsgValid();
 }
-SendMessageResetBase::SendMessageResetBase(){
-    len = 5;
-    data[3] = 0x50;
-    makeMsgValid();
-}
 
 RxMessage::RxMessage(){}
 RxMessage::RxMessage(const char *reply, const int n){

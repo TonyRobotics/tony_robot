@@ -79,21 +79,30 @@ void MessageManager::setSpeed(char speed_left, char speed_right){
     writeData(serial_handler, msg_set_speed_left.data, msg_set_speed_left.len);
     usleep(1000);
     writeData(serial_handler, msg_set_speed_right.data, msg_set_speed_right.len);
-    ROS_INFO("Set Speed OK");
-}
-void MessageManager::setMode(){
 }
 
 void MessageManager::setTimeout(){
     writeData(serial_handler, msg_set_timeout.data, msg_set_timeout.len);
-    ROS_INFO("Set timeout OK");
+    usleep(100000);
+    rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
+    ROS_INFO("rx timeout len: %d", rx_message.len);
+    if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
+        ROS_INFO("Set timeout OK");
+    }
+    else{
+        ROS_WARN("Set timeout falied");
+    }
 }
 void MessageManager::resetEncoder(){
     writeData(serial_handler, msg_reset_encoder.data, msg_reset_encoder.len);
-    ROS_INFO("Reset encoder OK");
-}
-void MessageManager::resetBase(){
-    writeData(serial_handler, msg_reset_base.data, msg_reset_base.len);
-    ROS_INFO("Reset base OK");
+    usleep(100000);
+    rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
+    ROS_INFO("rx encoder len: %d", rx_message.len);
+    if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
+        ROS_INFO("Reset encoder OK");
+    }
+    else{
+        ROS_WARN("Reset encoder falied");
+    }
 }
 
