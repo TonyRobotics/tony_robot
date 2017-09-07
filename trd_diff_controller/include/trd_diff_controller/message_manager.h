@@ -16,6 +16,9 @@ public:
     void setTimeout();
     void resetEncoder();
     int32_t encoder_left, encoder_right;
+    int32_t encoder_left_offset, encoder_right_offset;
+    bool first_time_flag;
+
     double imu_linear_accel_x, imu_linear_accel_y, imu_linear_accel_z; 
     double imu_angular_vel_x, imu_angular_vel_y, imu_angular_vel_z;
     double imu_orientation_x, imu_orientation_y, imu_orientation_z;

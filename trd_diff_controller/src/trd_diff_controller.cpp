@@ -6,8 +6,9 @@ TRDDiffController::TRDDiffController(){
     nh_private.param("baudrate", baudrate, 38400);
     nh_private.param("linear_coef", linear_coef, 320.0);
     nh_private.param("angular_coef", angular_coef, 60.0);
-    ROS_INFO("serialport: %s", serialport_name.c_str());
-    ROS_INFO("baudrate: %d", baudrate);
+    nh_private.param("encoder_ticks_per_rev", encoder_ticks_per_rev, 3136); // 49x64
+    nh_private.param("wheel_diameter", wheel_diameter, 0.125);
+    nh_private.param("base_width", base_width, 0.34);
     if(message_manager.connect(serialport_name.c_str(), baudrate) < 0){
         return;
     }
@@ -18,6 +19,17 @@ TRDDiffController::TRDDiffController(){
     sub_speed = nh.subscribe("/cmd_vel", 10, &TRDDiffController::cmdVelCallback, this);
     // ros spin
     ros::Rate loop_rate(10);
+    time_prev = ros::Time::now();
+    time_current = ros::Time::now();
+    encoder_left_prev = 0;
+    encoder_right_prev = 0;
+    self_x = 0;
+    self_y = 0;
+    self_theta = 0;
+    tf_transform.header.frame_id = "odom";
+    tf_transform.child_frame_id = "base_link";
+    odom.header.frame_id = "odom";
+    odom.child_frame_id= "base_link";
     while(nh.ok()){
         if(message_manager.getEncoderIMU() < 0){
             ROS_WARN("Get encoder_imu failed.");
@@ -37,6 +49,9 @@ TRDDiffController::TRDDiffController(){
             //ROS_INFO("IMU orientation x: %f, y: %f, z: %f", \
             //        message_manager.imu_orientation_x, message_manager.imu_orientation_y, message_manager.imu_orientation_z);
         }
+        publishOdom();
+        encoder_left_prev = message_manager.encoder_left;
+        encoder_right_prev = message_manager.encoder_right;
         ros::spinOnce();
         loop_rate.sleep();
     }
@@ -57,4 +72,36 @@ void TRDDiffController::cmdVelCallback(const geometry_msgs::Twist &msg){
     message_manager.setSpeed(speed_l, speed_r);
     ROS_INFO("Set speed left: %x, right: %x", speed_l, speed_r);
 }
-
+void TRDDiffController::publishOdom(){
+    double dx, dy, dtheta;
+    double d, dleft, dright; 
+    time_current = ros::Time::now();
+    double elapsed = (time_current - time_prev).toSec();
+    time_prev = time_current;
+    dleft = PI * wheel_diameter * (message_manager.encoder_left - encoder_left_prev) / encoder_ticks_per_rev;
+    dright = PI * wheel_diameter * (message_manager.encoder_right - encoder_right_prev) / encoder_ticks_per_rev;
+    d = (dleft + dright) / 2;
+    dtheta = (dright - dleft) / base_width;
+    if(d != 0){
+        dx = cos(dtheta) * d;
+        dy = -sin(dtheta) * d;
+        self_x = self_x + ( dx*cos(self_theta) - dy*sin(self_theta) );
+        self_y = self_y + ( dx*sin(self_theta) + dy*cos(self_theta) );
+    }
+    self_theta = self_theta + dtheta;
+    // send tf
+    geometry_msgs::Quaternion odom_quaternion = tf::createQuaternionMsgFromYaw(self_theta);
+    tf_transform.header.stamp = time_current;
+    tf_transform.transform.translation.x = self_x;
+    tf_transform.transform.translation.y = self_y;
+    tf_transform.transform.rotation = odom_quaternion;
+    tf_broadcaster.sendTransform(tf_transform);
+    // publish odom
+    odom.header.stamp = time_current;
+    odom.pose.pose.position.x = self_x;
+    odom.pose.pose.position.y = self_y;
+    odom.pose.pose.orientation = odom_quaternion;
+    odom.twist.twist.linear.x = d / elapsed;
+    odom.twist.twist.angular.z = dtheta / elapsed;
+    pub_odom.publish(odom);
+}   

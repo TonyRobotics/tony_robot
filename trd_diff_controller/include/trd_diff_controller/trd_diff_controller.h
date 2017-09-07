@@ -5,14 +5,21 @@
 #include "sensor_msgs/Imu.h"
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
+#include "geometry_msgs/Quaternion.h"
+#include "tf/transform_broadcaster.h"
 
 #include "trd_diff_controller/message_manager.h"
+
+#ifndef PI
+#define PI 3.141592653
+#endif
 
 class TRDDiffController{
 public:
     TRDDiffController();
     TRDDiffController(const char* serial_port_name, int baudrate);
     void cmdVelCallback(const geometry_msgs::Twist &msg);
+    void publishOdom();
 
 private:
     ros::NodeHandle nh;
@@ -23,8 +30,18 @@ private:
     MessageManager message_manager;
     std::string serialport_name;
     int baudrate;
+    // base parameters
     double linear_coef;
     double angular_coef;
+    int encoder_ticks_per_rev;
+    double wheel_diameter;
+    double base_width;
+    ros::Time time_current, time_prev;
+    int32_t encoder_left_prev, encoder_right_prev;
+    double self_x, self_y, self_theta;
+    tf::TransformBroadcaster tf_broadcaster;
+    geometry_msgs::TransformStamped tf_transform;
+    nav_msgs::Odometry odom;
 };
 
 #endif

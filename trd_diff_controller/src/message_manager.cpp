@@ -5,6 +5,9 @@
 
 MessageManager::MessageManager(){
     connect_flag = false;
+    first_time_flag = true;
+    encoder_left_offset = 0;
+    encoder_right_offset = 0;
 }
 int MessageManager::connect(const char *serial_port_name, const int baudrate){
     if(connect_flag){
@@ -38,6 +41,14 @@ int MessageManager::getEncoderIMU(){
         encoder_right |= (rx_message.data[8]&0xFF) << 16;
         encoder_right |= (rx_message.data[9]&0xFF) << 8;
         encoder_right |= (rx_message.data[10]&0xFF);
+        if(first_time_flag){
+            encoder_left_offset = encoder_left;
+            encoder_right_offset = encoder_right;
+            ROS_INFO("Encoder offset left: %d, right: %d", encoder_left_offset, encoder_right_offset);
+            first_time_flag = false;
+        }
+        encoder_left -= encoder_left_offset;
+        encoder_right -= encoder_right_offset;
         ROS_INFO("Encoder left: %d, right: %d", encoder_left, encoder_right);
         int16_t imu_tmp;
         imu_tmp  = (rx_message.data[11]&0xFF) << 8;

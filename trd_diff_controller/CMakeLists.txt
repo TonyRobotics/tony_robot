@@ -3,6 +3,7 @@ project(trd_diff_controller)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  tf
 )
 
 catkin_package(
