@@ -83,7 +83,7 @@ void TRDDiffController::cmdVelCallback(const geometry_msgs::Twist &msg){
     if(speed_r>255) speed_r = 255;
     if(speed_r<0)   speed_r = 0; 
     message_manager.setSpeed(speed_l, speed_r);
-    ROS_INFO("Set speed left: %x, right: %x", speed_l, speed_r);
+    //ROS_INFO("Set speed left: %x, right: %x", speed_l, speed_r);
 }
 void TRDDiffController::publishOdom(){
     double dx, dy, dtheta;

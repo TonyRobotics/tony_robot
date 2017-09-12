@@ -9,14 +9,14 @@
 
     <!-- laser leishen -->
     <include file="$(find tr30_launch)/launch/laser_leishen.launch">
-        <arg name="laserPort_" default="/dev/ttyUSB1"/>
-        <arg name="rate" default="10.0"/>
+        <arg name="laserPort_" value="/dev/ttyUSB1"/>
+        <arg name="rate" value="10.0"/>
     </include>
   
     <!-- ultrasound -->
     <include file="$(find tr30_launch)/launch/ultrasound.launch">
-        <arg name="port" default="/dev/ttyUSB2"/>
-        <arg name="baud" default="115200"/>
+        <arg name="port" value="/dev/ttyUSB2"/>
+        <arg name="baud" value="115200"/>
     </include>
 
     <!-- infrared -->
