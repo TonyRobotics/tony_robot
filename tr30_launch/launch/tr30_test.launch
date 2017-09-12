@@ -8,32 +8,34 @@
     </include>
 
     <!-- laser leishen -->
+    <!--
     <include file="$(find tr30_launch)/launch/laser_leishen.launch">
         <arg name="laserPort_" value="/dev/ttyUSB1"/>
         <arg name="rate" value="10.0"/>
     </include>
+    -->
   
     <!-- ultrasound -->
     <include file="$(find tr30_launch)/launch/ultrasound.launch">
-        <arg name="port" value="/dev/ttyUSB2"/>
-        <arg name="baud" value="115200"/>
+        <arg name="port" value="/dev/ttyUSB1"/>
+        <arg name="baud" value="57600"/>
     </include>
 
     <!-- infrared -->
+    <!--
     <include file="$(find tr30_launch)/launch/docking_infrared.launch">
-        <arg name="serialport_name" value="/dev/ttyUSB3" />
+        <arg name="serialport_name" value="/dev/ttyUSB2" />
     </include>
+    -->
 
     <!-- astra RGB-D -->
-    <include file="$(find tr30_launch)/launch/rgdb_astra.launch">
+    <include file="$(find tr30_launch)/launch/rgbd_astra.launch">
     </include>
 
     
     <!-- mapping algorithm -->
-    <!--
     <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping">
     </node>
-    -->
   
     <!-- move_base -->
     <!--
