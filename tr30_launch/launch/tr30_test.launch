@@ -22,11 +22,9 @@
     </include>
 
     <!-- infrared -->
-    <!--
     <include file="$(find tr30_launch)/launch/docking_infrared.launch">
         <arg name="serialport_name" value="/dev/ttyUSB2" />
     </include>
-    -->
 
     <!-- astra RGB-D -->
     <include file="$(find tr30_launch)/launch/rgbd_astra.launch">

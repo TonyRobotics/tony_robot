@@ -20,5 +20,6 @@ if __name__ == "__main__":
       print 'length:', len(str)
       for i in range(0,len(str)):
         print ord(str[i])
+      pub.publish(String("0 0 0"))
       str = ''
   
