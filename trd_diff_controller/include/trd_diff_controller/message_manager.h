@@ -10,11 +10,13 @@ public:
     int connect(const char *serial_port_name, const int baudrate);
     int disconnect();
     // get
+    int getEncoder();
     int getEncoderIMU();
     // set
     void setSpeed(char speed_left, char speed_right);
     void setTimeout();
     void resetEncoder();
+    void resetBase();
     int32_t encoder_left, encoder_right;
     int32_t encoder_left_offset, encoder_right_offset;
     bool first_time_flag;
@@ -34,6 +36,7 @@ private:
     SendMessageSetSpeedRight msg_set_speed_right;
     SendMessageSetTimeout msg_set_timeout;
     SendMessageResetEncoder msg_reset_encoder;
+    SendMessageResetBase msg_reset_base;
     // rx msg
     RxMessage rx_message;
 };

@@ -28,6 +28,32 @@ int MessageManager::disconnect(){
     return 0;
 }
 
+int MessageManager::getEncoder(){
+    writeData(serial_handler, msg_get_encoder.data, msg_get_encoder.len);
+    usleep(50000);
+    rx_message.len = readData(serial_handler, rx_message.data, rx_message.Encoder);
+    if(rx_message.len == rx_message.Encoder && rx_message.isMsgValid()){
+        encoder_left   = (rx_message.data[3]&0xFF) << 24;
+        encoder_left  |= (rx_message.data[4]&0xFF) << 16;
+        encoder_left  |= (rx_message.data[5]&0xFF) << 8;
+        encoder_left  |= (rx_message.data[6]&0xFF);
+        encoder_right  = (rx_message.data[7]&0xFF) << 24;
+        encoder_right |= (rx_message.data[8]&0xFF) << 16;
+        encoder_right |= (rx_message.data[9]&0xFF) << 8;
+        encoder_right |= (rx_message.data[10]&0xFF);
+        if(first_time_flag){
+            encoder_left_offset = encoder_left;
+            encoder_right_offset = encoder_right;
+            ROS_INFO("Encoder offset left: %d, right: %d", encoder_left_offset, encoder_right_offset);
+            first_time_flag = false;
+        }
+        encoder_left -= encoder_left_offset;
+        encoder_right -= encoder_right_offset;
+        return 0;
+    }
+    return -1;
+}
+
 int MessageManager::getEncoderIMU(){
     writeData(serial_handler, msg_get_encoder_imu.data, msg_get_encoder_imu.len);
     usleep(50000);
@@ -49,7 +75,6 @@ int MessageManager::getEncoderIMU(){
         }
         encoder_left -= encoder_left_offset;
         encoder_right -= encoder_right_offset;
-        ROS_INFO("Encoder left: %d, right: %d", encoder_left, encoder_right);
         int16_t imu_tmp;
         imu_tmp  = (rx_message.data[11]&0xFF) << 8;
         imu_tmp |= (rx_message.data[12]&0xFF);
@@ -94,7 +119,7 @@ void MessageManager::setSpeed(char speed_left, char speed_right){
 
 void MessageManager::setTimeout(){
     writeData(serial_handler, msg_set_timeout.data, msg_set_timeout.len);
-    usleep(100000);
+    usleep(50000);
     rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
     ROS_INFO("rx timeout len: %d", rx_message.len);
     if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
@@ -106,14 +131,26 @@ void MessageManager::setTimeout(){
 }
 void MessageManager::resetEncoder(){
     writeData(serial_handler, msg_reset_encoder.data, msg_reset_encoder.len);
-    usleep(100000);
+    usleep(50000);
     rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
-    ROS_INFO("rx encoder len: %d", rx_message.len);
+    ROS_INFO("rx reset encoder len: %d", rx_message.len);
     if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
         ROS_INFO("Reset encoder OK");
     }
     else{
         ROS_WARN("Reset encoder falied");
+    }
+}
+void MessageManager::resetBase(){
+    writeData(serial_handler, msg_reset_base.data, msg_reset_base.len);
+    usleep(50000);
+    rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
+    ROS_INFO("rx reset base len: %d", rx_message.len);
+    if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
+        ROS_INFO("Reset base OK");
+    }
+    else{
+        ROS_WARN("Reset base falied");
     }
 }
 

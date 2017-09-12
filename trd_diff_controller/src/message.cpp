@@ -52,12 +52,17 @@ void SendMessageSetSpeedRight::loadSpeed(char c){
 }
 SendMessageSetTimeout::SendMessageSetTimeout(){
     len = 5;
-    data[3] = 0x39;
+    data[2] = 0x39;
     makeMsgValid();
 }
 SendMessageResetEncoder::SendMessageResetEncoder(){
     len = 5;
-    data[3] = 0x35;
+    data[2] = 0x35;
+    makeMsgValid();
+}
+SendMessageResetBase::SendMessageResetBase(){
+    len = 5;
+    data[2] = 0x50;
     makeMsgValid();
 }
 

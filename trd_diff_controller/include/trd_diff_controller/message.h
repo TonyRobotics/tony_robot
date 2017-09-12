@@ -40,6 +40,10 @@ class SendMessageResetEncoder : public SendMessage{
 public:
     SendMessageResetEncoder();
 };
+class SendMessageResetBase : public SendMessage{
+public:
+    SendMessageResetBase();
+};
 
 #define RX_MAXLEN 256
 class RxMessage{

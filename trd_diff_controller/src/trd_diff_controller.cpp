@@ -2,6 +2,7 @@
 
 TRDDiffController::TRDDiffController(){
     ros::NodeHandle nh_private("~");
+    nh_private.param("use_imu", use_imu, false);
     nh_private.param<std::string>("serialport_name", serialport_name, "/dev/ttyUSB0");
     nh_private.param("baudrate", baudrate, 38400);
     nh_private.param("linear_coef", linear_coef, 320.0);
@@ -12,6 +13,8 @@ TRDDiffController::TRDDiffController(){
     if(message_manager.connect(serialport_name.c_str(), baudrate) < 0){
         return;
     }
+    message_manager.resetBase();
+    usleep(3000000);
     message_manager.setTimeout();
     message_manager.resetEncoder();
     pub_imu = nh.advertise<sensor_msgs::Imu>("imu", 10);
@@ -31,23 +34,33 @@ TRDDiffController::TRDDiffController(){
     odom.header.frame_id = "odom";
     odom.child_frame_id= "base_link";
     while(nh.ok()){
-        if(message_manager.getEncoderIMU() < 0){
-            ROS_WARN("Get encoder_imu failed.");
+        if(use_imu){
+            if(message_manager.getEncoderIMU() < 0){
+                ROS_WARN("Get encoder_imu failed.");
+            }
+            else{
+                imu_msg.linear_acceleration.x = message_manager.imu_linear_accel_x;
+                imu_msg.linear_acceleration.y = message_manager.imu_linear_accel_y;
+                imu_msg.linear_acceleration.z = message_manager.imu_linear_accel_z;
+                imu_msg.angular_velocity.x = message_manager.imu_angular_vel_x;
+                imu_msg.angular_velocity.y = message_manager.imu_angular_vel_y;
+                imu_msg.angular_velocity.z = message_manager.imu_angular_vel_z;
+                pub_imu.publish(imu_msg);
+                //ROS_INFO("IMU angluar speed x: %f, y: %f, z: %f", \
+                //        message_manager.imu_angular_vel_x, message_manager.imu_angular_vel_y, message_manager.imu_angular_vel_z);
+                //ROS_INFO("IMU linear accel x: %f, y: %f, z: %f", \
+                //        message_manager.imu_linear_accel_x, message_manager.imu_linear_accel_y, message_manager.imu_linear_accel_z);
+                //ROS_INFO("IMU orientation x: %f, y: %f, z: %f", \
+                //        message_manager.imu_orientation_x, message_manager.imu_orientation_y, message_manager.imu_orientation_z);
+            }
         }
         else{
-            imu_msg.linear_acceleration.x = message_manager.imu_linear_accel_x;
-            imu_msg.linear_acceleration.y = message_manager.imu_linear_accel_y;
-            imu_msg.linear_acceleration.z = message_manager.imu_linear_accel_z;
-            imu_msg.angular_velocity.x = message_manager.imu_angular_vel_x;
-            imu_msg.angular_velocity.y = message_manager.imu_angular_vel_y;
-            imu_msg.angular_velocity.z = message_manager.imu_angular_vel_z;
-            pub_imu.publish(imu_msg);
-            //ROS_INFO("IMU angluar speed x: %f, y: %f, z: %f", \
-            //        message_manager.imu_angular_vel_x, message_manager.imu_angular_vel_y, message_manager.imu_angular_vel_z);
-            //ROS_INFO("IMU linear accel x: %f, y: %f, z: %f", \
-            //        message_manager.imu_linear_accel_x, message_manager.imu_linear_accel_y, message_manager.imu_linear_accel_z);
-            //ROS_INFO("IMU orientation x: %f, y: %f, z: %f", \
-            //        message_manager.imu_orientation_x, message_manager.imu_orientation_y, message_manager.imu_orientation_z);
+            if(message_manager.getEncoder() < 0){
+                ROS_WARN("Get encoder failed.");
+            }
+            else{
+                //ROS_INFO("Got encoder left: %d, right: %d.", message_manager.encoder_left, message_manager.encoder_right);
+            }
         }
         publishOdom();
         encoder_left_prev = message_manager.encoder_left;

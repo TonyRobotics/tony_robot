@@ -30,6 +30,7 @@ private:
     MessageManager message_manager;
     std::string serialport_name;
     int baudrate;
+    bool use_imu;
     // base parameters
     double linear_coef;
     double angular_coef;
