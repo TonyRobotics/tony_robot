@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+    <param name="use_sim_time" value="false" />
+    
+    <!-- motor trd -->
+    <include file="$(find tr30_launch)/launch/motor_trd.launch">
+        <arg name="serialport_name" value="/dev/ttyUSB0" />
+    </include>
+
+    <!-- laser leishen -->
+    <include file="$(find tr30_launch)/launch/laser_leishen.launch">
+        <arg name="laserPort_" default="/dev/ttyUSB1"/>
+        <arg name="rate" default="10.0"/>
+    </include>
+  
+    <!-- ultrasound -->
+    <include file="$(find tr30_launch)/launch/ultrasound.launch">
+        <arg name="port" default="/dev/ttyUSB2"/>
+        <arg name="baud" default="115200"/>
+    </include>
+
+    <!-- infrared -->
+    <include file="$(find tr30_launch)/launch/docking_infrared.launch">
+        <arg name="serialport_name" value="/dev/ttyUSB3" />
+    </include>
+
+    <!-- astra RGB-D -->
+    <include file="$(find tr30_launch)/launch/rgdb_astra.launch">
+    </include>
+
+    
+    <!-- mapping algorithm -->
+    <!--
+    <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping">
+    </node>
+    -->
+  
+    <!-- move_base -->
+    <!--
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true"> 
+        <rosparam file="costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="local_costmap_params.yaml" command="load" />
+        <rosparam file="global_costmap_params.yaml" command="load" />
+        <rosparam file="base_local_planner_params.yaml" command="load" />
+    </node>
+    -->
+  
+</launch>
+
