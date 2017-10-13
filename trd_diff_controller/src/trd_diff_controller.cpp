@@ -3,7 +3,7 @@
 TRDDiffController::TRDDiffController(){
     ros::NodeHandle nh_private("~");
     nh_private.param("use_imu", use_imu, false);
-    nh_private.param<std::string>("serialport_name", serialport_name, "/dev/ttyUSB0");
+    nh_private.param<std::string>("serialport_name", serialport_name, "/dev/motor_trd");
     nh_private.param("baudrate", baudrate, 38400);
     nh_private.param("linear_coef", linear_coef, 320.0);
     nh_private.param("angular_coef", angular_coef, 60.0);

@@ -9,6 +9,8 @@ public:
     MessageManager();
     int connect(const char *serial_port_name, const int baudrate);
     int disconnect();
+    int sendMessage(void *handle, const char *buffer, int length);
+    int rxMessage(void *handle, char *buffer, int length);
     // get
     int getEncoder();
     int getEncoderIMU();
@@ -25,6 +27,8 @@ public:
     double imu_angular_vel_x, imu_angular_vel_y, imu_angular_vel_z;
     double imu_orientation_x, imu_orientation_y, imu_orientation_z;
 private:
+    char serial_port_name[256];
+    int baudrate;
     void *serial_handler;
     bool connect_flag;
     // send get msg

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <node pkg="trd_diff_controller" type="trd_diff_controller_node" name="trd_diff_controller_node">
-    <param name="serialport_name" value="/dev/ttyUSB0"/>
+    <param name="serialport_name" value="/dev/motor_trd"/>
     <param name="baudrate" value="38400"/>
     <!-- XiaoBai -->
     <param name="linear_coef" value="320.0" />

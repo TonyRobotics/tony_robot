@@ -10,6 +10,8 @@ MessageManager::MessageManager(){
     encoder_right_offset = 0;
 }
 int MessageManager::connect(const char *serial_port_name, const int baudrate){
+    sprintf(this->serial_port_name, "%s", serial_port_name);
+    this->baudrate = baudrate;
     if(connect_flag){
         return -1;
     }
@@ -23,15 +25,47 @@ int MessageManager::connect(const char *serial_port_name, const int baudrate){
     return 0;
 }
 
+int MessageManager::sendMessage(void *handle, const char *buffer, int length){
+    int n = writeData(handle, buffer, length);
+    if(n == length){
+        return n;
+    }
+    connect_flag = false;
+    while(true){ // reconnect
+        usleep(1000*1000);
+        ROS_WARN("Reconnecting to serial port: %s...", this->serial_port_name);
+        if(0 == connect(this->serial_port_name, this->baudrate)){
+            ROS_WARN("Connected!");
+            return 0;
+        }
+    }
+}
+
+int MessageManager::rxMessage(void *handle, char *buffer, int length){
+    int n = readData(handle, buffer, length);
+    if(n == length){
+        return n;
+    }
+    connect_flag = false;
+    while(true){ // reconnect
+        usleep(1000*1000);
+        ROS_WARN("Reconnecting to serial port: %s...", this->serial_port_name);
+        if(0 == connect(this->serial_port_name, this->baudrate)){
+            ROS_WARN("Connected!");
+            return 0;
+        }
+    }
+}
+
 int MessageManager::disconnect(){
     closeSerialPort(serial_handler);
     return 0;
 }
 
 int MessageManager::getEncoder(){
-    writeData(serial_handler, msg_get_encoder.data, msg_get_encoder.len);
+    sendMessage(serial_handler, msg_get_encoder.data, msg_get_encoder.len);
     usleep(50000);
-    rx_message.len = readData(serial_handler, rx_message.data, rx_message.Encoder);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, rx_message.Encoder);
     if(rx_message.len == rx_message.Encoder && rx_message.isMsgValid()){
         encoder_left   = (rx_message.data[3]&0xFF) << 24;
         encoder_left  |= (rx_message.data[4]&0xFF) << 16;
@@ -55,9 +89,9 @@ int MessageManager::getEncoder(){
 }
 
 int MessageManager::getEncoderIMU(){
-    writeData(serial_handler, msg_get_encoder_imu.data, msg_get_encoder_imu.len);
+    sendMessage(serial_handler, msg_get_encoder_imu.data, msg_get_encoder_imu.len);
     usleep(50000);
-    rx_message.len = readData(serial_handler, rx_message.data, rx_message.EncoderIMU);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, rx_message.EncoderIMU);
     if(rx_message.len == rx_message.EncoderIMU && rx_message.isMsgValid()){
         encoder_left   = (rx_message.data[3]&0xFF) << 24;
         encoder_left  |= (rx_message.data[4]&0xFF) << 16;
@@ -112,15 +146,15 @@ int MessageManager::getEncoderIMU(){
 void MessageManager::setSpeed(char speed_left, char speed_right){
     msg_set_speed_left.loadSpeed(speed_left);
     msg_set_speed_right.loadSpeed(speed_right);
-    writeData(serial_handler, msg_set_speed_left.data, msg_set_speed_left.len);
+    sendMessage(serial_handler, msg_set_speed_left.data, msg_set_speed_left.len);
     usleep(1000);
-    writeData(serial_handler, msg_set_speed_right.data, msg_set_speed_right.len);
+    sendMessage(serial_handler, msg_set_speed_right.data, msg_set_speed_right.len);
 }
 
 void MessageManager::setTimeout(){
-    writeData(serial_handler, msg_set_timeout.data, msg_set_timeout.len);
+    sendMessage(serial_handler, msg_set_timeout.data, msg_set_timeout.len);
     usleep(50000);
-    rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, rx_message.ROGER);
     ROS_INFO("rx timeout len: %d", rx_message.len);
     if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
         ROS_INFO("Set timeout OK");
@@ -130,9 +164,9 @@ void MessageManager::setTimeout(){
     }
 }
 void MessageManager::resetEncoder(){
-    writeData(serial_handler, msg_reset_encoder.data, msg_reset_encoder.len);
+    sendMessage(serial_handler, msg_reset_encoder.data, msg_reset_encoder.len);
     usleep(50000);
-    rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, rx_message.ROGER);
     ROS_INFO("rx reset encoder len: %d", rx_message.len);
     if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
         ROS_INFO("Reset encoder OK");
@@ -142,9 +176,9 @@ void MessageManager::resetEncoder(){
     }
 }
 void MessageManager::resetBase(){
-    writeData(serial_handler, msg_reset_base.data, msg_reset_base.len);
+    sendMessage(serial_handler, msg_reset_base.data, msg_reset_base.len);
     usleep(50000);
-    rx_message.len = readData(serial_handler, rx_message.data, rx_message.ROGER);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, rx_message.ROGER);
     ROS_INFO("rx reset base len: %d", rx_message.len);
     if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
         ROS_INFO("Reset base OK");
