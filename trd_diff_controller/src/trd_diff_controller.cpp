@@ -7,6 +7,8 @@ TRDDiffController::TRDDiffController(){
     nh_private.param("baudrate", baudrate, 38400);
     nh_private.param("linear_coef", linear_coef, 320.0);
     nh_private.param("angular_coef", angular_coef, 60.0);
+    nh_private.param("left_coef", left_coef, 1.0);
+    nh_private.param("right_coef", right_coef, 1.0);
     nh_private.param("encoder_ticks_per_rev", encoder_ticks_per_rev, 3136); // 49x64
     nh_private.param("wheel_diameter", wheel_diameter, 0.125);
     nh_private.param("base_width", base_width, 0.34);
@@ -76,6 +78,8 @@ void TRDDiffController::cmdVelCallback(const geometry_msgs::Twist &msg){
     // Turn clock- or counterclockwise:
     speed_l -= round(angular_coef * msg.angular.z);
     speed_r += round(angular_coef * msg.angular.z);        
+    speed_l *= left_coef;
+    speed_r *= right_coef;
     speed_l	+= 128;
     speed_r += 128;
     if(speed_l>255) speed_l = 255;

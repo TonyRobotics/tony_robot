@@ -4,6 +4,8 @@
     <param name="serialport_name" value="/dev/motor_trd"/>
     <param name="baudrate" value="38400"/>
     <!-- XiaoBai -->
+    <param name="left_coef" value="1.0" />
+    <param name="right_coef" value="1.0" />
     <param name="linear_coef" value="320.0" />
     <param name="angular_coef" value="60.0" />
     <param name="encoder_ticks_per_rev" value="996" />

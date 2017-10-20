@@ -34,6 +34,8 @@ private:
     // base parameters
     double linear_coef;
     double angular_coef;
+    double left_coef;
+    double right_coef;
     int encoder_ticks_per_rev;
     double wheel_diameter;
     double base_width;
