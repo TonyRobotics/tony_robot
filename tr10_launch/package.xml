@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package>
+  <name>tr10_launch</name>
+  <version>0.0.0</version>
+  <description>The tr10_launch package</description>
+  <maintainer email="jeff.gao@tonyrobotics.com">Jeff Gao</maintainer>
+  <license>BSD</license>
+  <!-- <url type="website">http://wiki.ros.org/tr10_launch</url> -->
+  <author email="jeff.gao@tonyrobotics.com">Jeff Gao</author> -->
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>
+

@@ -1,34 +1,51 @@
 <?xml version="1.0"?>
 <launch>
+  <!-- TR10 -->
+  <arg name="serialport_name" default="/dev/motor_trd" />
+  <arg name="baudrate" default="38400"/>
+  <arg name="left_coef" default="-1.0" />
+  <arg name="right_coef" default="1.0" />
+  <arg name="linear_coef" default="82.0" />
+  <arg name="angular_coef" default="14.64" />
+  <arg name="encoder_ticks_per_rev" default="1600" />
+  <arg name="base_width" default="0.39" />
+  <arg name="wheel_diameter" default="0.125" />
+  <!-- TR30 -->
+  <!--
+  <arg name="serialport_name" default="/dev/motor_trd" />
+  <arg name="baudrate" default="38400"/>
+  <arg name="left_coef" default="1.0" />
+  <arg name="right_coef" default="1.0" />
+  <arg name="linear_coef" default="166.4" />
+  <arg name="angular_coef" default="28.2" />
+  <arg name="encoder_ticks_per_rev" default="3136" />
+  <arg name="base_width" default="0.34" />
+  <arg name="wheel_diameter" default="0.125" />
+  -->
+  <!-- XiaoBai -->
+  <!--
+  <arg name="serialport_name" default="/dev/motor_trd" />
+  <arg name="baudrate" default="38400"/>
+  <arg name="left_coef" default="1.0" />
+  <arg name="right_coef" default="1.0" />
+  <arg name="linear_coef" default="320.0" />
+  <arg name="angular_coef" default="60.0" />
+  <arg name="encoder_ticks_per_rev" default="996" />
+  <arg name="base_width" default="0.39" />
+  <arg name="wheel_diameter" default="0.125" />
+  -->
+
   <node pkg="trd_diff_controller" type="trd_diff_controller_node" name="trd_diff_controller_node">
-    <param name="serialport_name" value="/dev/motor_trd"/>
-    <param name="baudrate" value="38400"/>
-    <!-- TR10 -->
-    <param name="left_coef" value="-1.0" />
-    <param name="right_coef" value="1.0" />
-    <param name="linear_coef" value="82.0" />
-    <param name="angular_coef" value="14.64" />
-    <param name="encoder_ticks_per_rev" value="1600" />
-    <param name="base_width" value="0.39" />
-    <param name="wheel_diameter" value="0.125" />
-    <!-- XiaoBai -->
-    <!--
-    <param name="left_coef" value="1.0" />
-    <param name="right_coef" value="1.0" />
-    <param name="linear_coef" value="320.0" />
-    <param name="angular_coef" value="60.0" />
-    <param name="encoder_ticks_per_rev" value="996" />
-    <param name="base_width" value="0.39" />
-    <param name="wheel_diameter" value="0.125" />
-    -->
-    <!-- TR30 -->
-    <!--
-    <param name="linear_coef" value="166.4" />
-    <param name="angular_coef" value="28.2" />
-    <param name="encoder_ticks_per_rev" value="3136" />
-    <param name="base_width" value="0.34" />
-    <param name="wheel_diameter" value="0.125" />
-    -->
+    <param name="serialport_name" value="$(arg serialport_name)"/>
+    <param name="baudrate" value="$(arg baudrate)"/>
+    <param name="left_coef" value="$(arg left_coef)" />
+    <param name="right_coef" value="$(arg right_coef)" />
+    <param name="linear_coef" value="$(arg linear_coef)" />
+    <param name="angular_coef" value="$(arg angular_coef)" />
+    <param name="encoder_ticks_per_rev" value="$(arg encoder_ticks_per_rev)" />
+    <param name="base_width" value="$(arg base_width)" />
+    <param name="wheel_diameter" value="$(arg wheel_diameter)" />
+
   </node>
 </launch>
 

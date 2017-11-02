@@ -2,10 +2,10 @@
 <launch>
     <node pkg="tf" type="static_transform_publisher" name="broadcaster_laser"
                    args="0.08 0 0 0 0 0 /base_link /laser 100" />
-    <arg name="laserPort_" default="leishen"/>
-    <arg name="rate" default="10.0"/>
+    <arg name="laserPort_" default="leishen" />
+    <arg name="rate" default="10.0" />
     <node pkg="ls01c" type="LS01C_node" name="LS01C_node">
-        <param name="laserPort_" value="$(arg laserPort_)"/>
-        <param name="rate" value="$(arg rate)"/>
+        <param name="laserPort_" value="$(arg laserPort_)" />
+        <param name="rate" value="$(arg rate)" />
     </node>
 </launch>
