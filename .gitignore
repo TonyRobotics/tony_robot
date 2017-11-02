@@ -1,0 +1,7 @@
+/devel/*
+/build/*
+/devel_isolated/*
+/build_isolated/*
+/install/*
+*~
+*.swp
