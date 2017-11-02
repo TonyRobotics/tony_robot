@@ -150,7 +150,18 @@ void MessageManager::setSpeed(char speed_left, char speed_right){
     usleep(1000);
     sendMessage(serial_handler, msg_set_speed_right.data, msg_set_speed_right.len);
 }
-
+void MessageManager::setLRCalib(){
+    sendMessage(serial_handler, msg_set_lr_calib.data, msg_set_lr_calib.len);
+    usleep(50000);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, rx_message.ROGER);
+    ROS_INFO("rx lr calib len: %d", rx_message.len);
+    if(rx_message.len == rx_message.ROGER && rx_message.isMsgValid()){
+        ROS_INFO("Set LR Calib OK");
+    }
+    else{
+        ROS_WARN("Set LR Calib falied");
+    }
+}
 void MessageManager::setTimeout(){
     sendMessage(serial_handler, msg_set_timeout.data, msg_set_timeout.len);
     usleep(50000);

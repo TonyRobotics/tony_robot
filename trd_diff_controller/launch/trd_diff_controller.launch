@@ -3,7 +3,16 @@
   <node pkg="trd_diff_controller" type="trd_diff_controller_node" name="trd_diff_controller_node">
     <param name="serialport_name" value="/dev/motor_trd"/>
     <param name="baudrate" value="38400"/>
+    <!-- TR10 -->
+    <param name="left_coef" value="-1.0" />
+    <param name="right_coef" value="1.0" />
+    <param name="linear_coef" value="82.0" />
+    <param name="angular_coef" value="14.64" />
+    <param name="encoder_ticks_per_rev" value="1600" />
+    <param name="base_width" value="0.39" />
+    <param name="wheel_diameter" value="0.125" />
     <!-- XiaoBai -->
+    <!--
     <param name="left_coef" value="1.0" />
     <param name="right_coef" value="1.0" />
     <param name="linear_coef" value="320.0" />
@@ -11,6 +20,7 @@
     <param name="encoder_ticks_per_rev" value="996" />
     <param name="base_width" value="0.39" />
     <param name="wheel_diameter" value="0.125" />
+    -->
     <!-- TR30 -->
     <!--
     <param name="linear_coef" value="166.4" />

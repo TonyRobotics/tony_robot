@@ -17,6 +17,7 @@ TRDDiffController::TRDDiffController(){
     }
     message_manager.resetBase();
     usleep(3000000);
+    message_manager.setLRCalib();
     message_manager.setTimeout();
     message_manager.resetEncoder();
     pub_imu = nh.advertise<sensor_msgs::Imu>("imu", 10);
@@ -61,7 +62,7 @@ TRDDiffController::TRDDiffController(){
                 ROS_WARN("Get encoder failed.");
             }
             else{
-                //ROS_INFO("Got encoder left: %d, right: %d.", message_manager.encoder_left, message_manager.encoder_right);
+                ROS_INFO("Got encoder left: %d, right: %d.", int(left_coef*message_manager.encoder_left), int(right_coef*message_manager.encoder_right));
             }
         }
         publishOdom();
@@ -87,7 +88,7 @@ void TRDDiffController::cmdVelCallback(const geometry_msgs::Twist &msg){
     if(speed_r>255) speed_r = 255;
     if(speed_r<0)   speed_r = 0; 
     message_manager.setSpeed(speed_l, speed_r);
-    //ROS_INFO("Set speed left: %x, right: %x", speed_l, speed_r);
+    ROS_INFO("Set speed left: %x, right: %x", speed_l, speed_r);
 }
 void TRDDiffController::publishOdom(){
     double dx, dy, dtheta;
@@ -95,8 +96,8 @@ void TRDDiffController::publishOdom(){
     time_current = ros::Time::now();
     double elapsed = (time_current - time_prev).toSec();
     time_prev = time_current;
-    dleft = PI * wheel_diameter * (message_manager.encoder_left - encoder_left_prev) / encoder_ticks_per_rev;
-    dright = PI * wheel_diameter * (message_manager.encoder_right - encoder_right_prev) / encoder_ticks_per_rev;
+    dleft = left_coef * PI * wheel_diameter * (message_manager.encoder_left - encoder_left_prev) / encoder_ticks_per_rev;
+    dright = right_coef * PI * wheel_diameter * (message_manager.encoder_right - encoder_right_prev) / encoder_ticks_per_rev;
     d = (dleft + dright) / 2;
     dtheta = (dright - dleft) / base_width;
     if(d != 0){

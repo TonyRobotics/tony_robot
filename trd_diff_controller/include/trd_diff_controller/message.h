@@ -32,6 +32,10 @@ public:
     SendMessageSetSpeedRight();
     void loadSpeed(char c);
 };
+class SendMessageSetLRCalib : public SendMessage{
+public:
+    SendMessageSetLRCalib();
+};
 class SendMessageSetTimeout : public SendMessage{
 public:
     SendMessageSetTimeout();

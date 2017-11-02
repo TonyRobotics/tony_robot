@@ -50,6 +50,11 @@ void SendMessageSetSpeedRight::loadSpeed(char c){
     data[3] = c;
     makeMsgValid();
 }
+SendMessageSetLRCalib::SendMessageSetLRCalib(){
+    len = 5;
+    data[2] = 0x37;
+    makeMsgValid();
+}
 SendMessageSetTimeout::SendMessageSetTimeout(){
     len = 5;
     data[2] = 0x39;

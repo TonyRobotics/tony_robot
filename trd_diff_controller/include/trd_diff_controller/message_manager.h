@@ -16,6 +16,7 @@ public:
     int getEncoderIMU();
     // set
     void setSpeed(char speed_left, char speed_right);
+    void setLRCalib();
     void setTimeout();
     void resetEncoder();
     void resetBase();
@@ -38,6 +39,7 @@ private:
     // send set msg
     SendMessageSetSpeedLeft msg_set_speed_left;
     SendMessageSetSpeedRight msg_set_speed_right;
+    SendMessageSetLRCalib msg_set_lr_calib;
     SendMessageSetTimeout msg_set_timeout;
     SendMessageResetEncoder msg_reset_encoder;
     SendMessageResetBase msg_reset_base;
