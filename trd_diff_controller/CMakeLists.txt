@@ -29,3 +29,13 @@ target_link_libraries(trd_diff_controller_node
   ${catkin_LIBRARIES}
 )
 
+add_executable(get_motor_status
+    src/get_motor_status.cpp
+    src/message_manager.cpp
+    src/message.cpp
+    src/serial_port.cpp
+)
+add_dependencies(get_motor_status ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(get_motor_status
+  ${catkin_LIBRARIES}
+)

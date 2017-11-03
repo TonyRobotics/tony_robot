@@ -14,6 +14,7 @@ public:
     // get
     int getEncoder();
     int getEncoderIMU();
+    int getMotorStatus();
     // set
     void setSpeed(char speed_left, char speed_right);
     void setLRCalib();

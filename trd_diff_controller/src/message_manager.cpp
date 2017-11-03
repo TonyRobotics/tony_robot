@@ -143,6 +143,51 @@ int MessageManager::getEncoderIMU(){
     }
     return -1;
 }
+int MessageManager::getMotorStatus(){
+    SendMessage send_msg;
+    // version
+    send_msg.len = 5;
+    send_msg.data[2] = 0x29;
+    send_msg.makeMsgValid();
+    sendMessage(serial_handler, send_msg.data, send_msg.len);
+    usleep(50000);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, 6);
+    if(rx_message.len == 6 && rx_message.isMsgValid()){
+        ROS_INFO("TRD Version: %x", rx_message.data[3]);
+    }
+    // Mode
+    send_msg.len = 5;
+    send_msg.data[2] = 0x2B;
+    send_msg.makeMsgValid();
+    sendMessage(serial_handler, send_msg.data, send_msg.len);
+    usleep(50000);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, 6);
+    if(rx_message.len == 6 && rx_message.isMsgValid()){
+        ROS_INFO("Mode: %x", rx_message.data[3]);
+    }
+    // Error Code
+    send_msg.len = 5;
+    send_msg.data[2] = 0x2D;
+    send_msg.makeMsgValid();
+    sendMessage(serial_handler, send_msg.data, send_msg.len);
+    usleep(50000);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, 6);
+    if(rx_message.len == 6 && rx_message.isMsgValid()){
+        ROS_INFO("Error Code: %x", rx_message.data[3]);
+    }
+    // voltage
+    send_msg.len = 5;
+    send_msg.data[2] = 0x26;
+    send_msg.makeMsgValid();
+    sendMessage(serial_handler, send_msg.data, send_msg.len);
+    usleep(50000);
+    rx_message.len = rxMessage(serial_handler, rx_message.data, 6);
+    if(rx_message.len == 6 && rx_message.isMsgValid()){
+        ROS_INFO("Voltage: %x (%d)", rx_message.data[3], rx_message.data[3]);
+    }
+    return -1;
+}
+
 void MessageManager::setSpeed(char speed_left, char speed_right){
     msg_set_speed_left.loadSpeed(speed_left);
     msg_set_speed_right.loadSpeed(speed_right);
