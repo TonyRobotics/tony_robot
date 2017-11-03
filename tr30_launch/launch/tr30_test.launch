@@ -4,7 +4,15 @@
     
     <!-- motor trd -->
     <include file="$(find tr30_launch)/launch/motor_trd.launch">
-        <arg name="serialport_name" value="/dev/ttyUSB0" />
+        <arg name="serialport_name" value="/dev/motor_trd" />
+        <arg name="baudrate" value="38400"/>
+        <arg name="left_coef" value="1.0" />
+        <arg name="right_coef" value="1.0" />
+        <arg name="linear_coef" value="166.4" />
+        <arg name="angular_coef" value="28.2" />
+        <arg name="encoder_ticks_per_rev" value="3136" />
+        <arg name="base_width" value="0.34" />
+        <arg name="wheel_diameter" value="0.125" />
     </include>
 
     <!-- laser leishen -->
@@ -29,7 +37,6 @@
     <!-- astra RGB-D -->
     <include file="$(find tr30_launch)/launch/rgbd_astra.launch">
     </include>
-
     
     <!-- mapping -->
     <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping">
