@@ -183,7 +183,7 @@ int MessageManager::getMotorStatus(){
     usleep(50000);
     rx_message.len = rxMessage(serial_handler, rx_message.data, 6);
     if(rx_message.len == 6 && rx_message.isMsgValid()){
-        ROS_INFO("Voltage: %x (%d)", rx_message.data[3], rx_message.data[3]);
+        ROS_INFO("Voltage: 0x%x(%d)", rx_message.data[3], rx_message.data[3]);
     }
     return -1;
 }
