@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <!--
+    <node pkg="tf" type="static_transform_publisher" name="broadcaster_laser_map"
+        args="0 0 0 0 0 0 /laser_link /map 100" />
+    -->
+    <arg name="laser_port" default="leishen" />
+    <node name="lslaser_node" pkg="lslaser" type="lslaser_node">
+        <param name="laser_port" value="$(arg laser_port)" />
+    </node>
+</launch>
