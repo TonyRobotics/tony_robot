@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <launch>
     <param name="use_sim_time" value="false" />
-
-    <node pkg="tf" type="static_transform_publisher" name="broadcaster_base_laser"
-          args="0.225 0 0 3.1416 0 0 /base_link /laser_link 100" />
     
     <!-- motor trd -->
     <include file="$(find trd_diff_controller)/launch/trd_diff_controller.launch">
@@ -19,8 +16,22 @@
     </include>
 
     <!-- laser leishen -->
+    <!--
     <include file="$(find lslaser)/launch/leishen.launch">
     </include>
-    
+    -->
+
+    <!-- astra RGB-D -->
+    <!--   
+    <include file="$(find tr10_launch)/launch/rgbd_astra.launch">
+    </include>
+    -->    
+
+    <!-- kinect RGB-D -->
+    <!--
+    <include file="$(find tr10_launch)/launch/rgbd_kinect.launch">
+    </include>    
+    -->
+
 </launch>
 

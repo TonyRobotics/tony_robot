@@ -1,8 +1,8 @@
 planner_frequency: 0.3
-controller_frequency: 3.0
+controller_frequency: 2.0
 recovery_behavior_enabled: true
 clearing_rotation_allowed: true
-controller_patience: 600
+controller_patience: 60
 
 recovery_behaviors:
   - name: 'conservative_reset'
@@ -33,8 +33,8 @@ TrajectoryPlannerROS:
    yaw_goal_tolerance: 0.2 # about 6 degrees/0.1
    xy_goal_tolerance: 0.3  # 
    latch_xy_goal_tolerance: false
-   pdist_scale: 1.0
-   gdist_scale: 0.2
+   pdist_scale: 0.8
+   gdist_scale: 0.4
    meter_scoring: true
 
    heading_lookahead: 1.0
