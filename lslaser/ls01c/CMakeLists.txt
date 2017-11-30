@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(lslaser)
+project(ls01c)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -15,6 +15,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}/src
 )
 
-add_executable(lslaser_node src/main.cpp src/uart_driver.cpp)
-target_link_libraries(lslaser_node ${catkin_LIBRARIES})
+add_executable(ls01c src/main.cpp src/uart_driver.cpp)
+target_link_libraries(ls01c ${catkin_LIBRARIES})
 

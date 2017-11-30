@@ -16,8 +16,14 @@
     </include>
 
     <!-- laser leishen -->
+    <!-- ls01c -->
     <!--
-    <include file="$(find lslaser)/launch/leishen.launch">
+    <include file="$(find ls01c)/launch/ls01c.launch">
+    </include>
+    -->
+    <!-- ls01d -->
+    <!--
+    <include file="$(find ls01d)/launch/ls01d.launch">
     </include>
     -->
 

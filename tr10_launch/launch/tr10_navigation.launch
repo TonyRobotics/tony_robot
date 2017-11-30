@@ -6,16 +6,23 @@
     <include file="$(find tr10_launch)/launch/tr10_minimal.launch" />
 
     <!-- laser leishen -->
-    
-    <include file="$(find lslaser)/launch/leishen.launch">
-    </include>
-    
-
-    <!-- astra RGB-D -->
-    <!--   
-    <include file="$(find tr10_launch)/launch/rgbd_astra.launch">
+    <!-- ls01c -->
+    <!--
+    <include file="$(find ls01c)/launch/ls01c.launch">
     </include>
     -->
+
+    <!-- ls01d -->
+    <!-- 
+    <include file="$(find ls01d)/launch/ls01d.launch">
+    </include>
+    -->
+
+    <!-- astra RGB-D -->
+       
+    <include file="$(find tr10_launch)/launch/rgbd_astra.launch">
+    </include>
+    
 
     <!-- kinect RGB-D -->
     <!--

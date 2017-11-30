@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>lslaser</name>
+  <name>ls01d</name>
   <version>0.0.0</version>
   <description>The laser package</description>
 
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/lslaser</url> -->
+  <!-- <url type="website">http://wiki.ros.org/talker</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
