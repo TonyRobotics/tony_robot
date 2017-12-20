@@ -1,6 +1,6 @@
-本驱动包支持Tony Robotics公司轮式底盘，如TR10、TR30。
+本驱动包支持Tony Robotics公司轮式底盘，如TR10、TR30等。
 
-可到[cn.robostore.me](http://cn.robostore.me)网上商城进行选购[轮式底盘TR10](http://cn.robostore.me/goods-details/104601512459932935)，[电机驱动TRD](http://cn.robostore.me/goods-details/103801510130627468)，[激光雷达](http://cn.robostore.me)，[深度相机](http://cn.robostore.me/goods-details/104301510191123102)等。
+可到[RoboStore&reg;](http://cn.robostore.me)网上商城进行选购与其配套的[轮式底盘TR10](http://cn.robostore.me/goods-details/104601512459932935)，[电机驱动TRD](http://cn.robostore.me/goods-details/103801510130627468)，[激光雷达](http://cn.robostore.me)，[深度相机](http://cn.robostore.me/goods-details/104301510191123102)等部件。
 
 安装步骤为:
 
@@ -50,7 +50,7 @@ $ python keyboard_teleop.py
 
 此时，可通过“i”、“,”、“j”、“l”、“k”键分别控制底盘前进、后退、左转、右转和停止。
 
-#### 3. 激光雷达测试
+### 3. 激光雷达测试
 
 测试型号为[镭神LS01D](http://cn.robostore.me/)。
 
@@ -121,3 +121,4 @@ Launch启动后，可在命令行启动rqt_image_view浏览图像。在命令行
 
 $ rqt_image_view
 
+正常情况下，此时应该能看到图像输出。
