@@ -4,7 +4,7 @@
 
 安装步骤为:
 
-#### 1. 准备工作
+### 1. 准备工作
 
 创建ROS工作区，下载源代码，并进行编译。
 
@@ -18,11 +18,11 @@ $ echo "source ~/ros_ws/devel/setup.bash" >> ~/.bashrc
 $ source ~/.bashrc
 ```
 
-#### 2. 电机驱动测试
+### 2. 电机驱动测试
 
 测试型号为[Tony Robotics TRD](http://cn.robostore.me/goods-details/103801510130627468)。
 
-##### 2.1 添加设备udev规则
+#### 2.1 添加设备udev规则
 
 ```
 $ cd ~/ros_ws/src/tony_robot/trd_diff_controller
@@ -31,7 +31,7 @@ $ sudo service udev reload
 $ sudo service udev restart
 ```
 
-##### 2.2 启动及测试
+#### 2.2 启动及测试
 
 将TRD连接至USB端口，执行以下指令:
 
@@ -46,7 +46,7 @@ $ cd ~/ros_ws/src/tony_robot/trd_diff_controller/scripts
 $ python keyboard_teleop.py
 ```
 
-##### 2.3 控制
+#### 2.3 控制
 
 此时，可通过“i”、“,”、“j”、“l”、“k”键分别控制底盘前进、后退、左转、右转和停止。
 
@@ -54,7 +54,7 @@ $ python keyboard_teleop.py
 
 测试型号为[镭神LS01D](http://cn.robostore.me/)。
 
-##### 3.1 添加设备udev规则
+#### 3.1 添加设备udev规则
 
 ```
 $ cd ~/ros_ws/src/tony_robot/lslaser
@@ -63,7 +63,7 @@ $ sudo service udev reload
 $ sudo service udev restart
 ```
 
-##### 3.2 启动及测试
+#### 3.2 启动及测试
 
 将激光雷达连接至USB端口，执行以下指令:
 
@@ -79,17 +79,17 @@ $ rostopic echo /scan
 
 若看到命令行输出激光数据，则证明工作正常。
 
-#### 4. 深度相机测试
+### 4. 深度相机测试
 
 测试型号为[奥比中光Orbbec Astra](http://cn.robostore.me/goods-details/104301510191123102)。
 
-##### 4.1 打开终端，执行以下命令安装ROS驱动包
+#### 4.1 打开终端，执行以下命令安装ROS驱动包
 
 ```
 $ sudo apt-get install ros-$ROS_DISTRO-astra-camera ros-$ROS_DISTRO-astra-launch
 ```
 
-##### 4.2 添加设备udev规则
+#### 4.2 添加设备udev规则
 
 设置前，需要将深度相机USB接口拔掉。然后，在命令行依次执行以下命令。
 
@@ -100,7 +100,7 @@ $ sudo service udev reload
 $ sudo service udev restart
 ```
 
-##### 4.3 启动
+#### 4.3 启动
 
 将设备连接至USB端口，执行以下指令。
 
