@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <name>tr5_launch</name>
+  <version>0.0.0</version>
+  <description>The tr5_launch package</description>
+  <maintainer email="jeff.gao@tonyrobotics.com">Jeff Gao</maintainer>
+  <license>BSD</license>
+  <author email="jeff.gao@tonyrobotics.com">Jeff Gao</author> -->
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>
+
