@@ -4,25 +4,14 @@
     
     <!-- start up tr5 driver -->
     <include file="$(find tr5_launch)/launch/tr5_minimal.launch" />
-
-    <!-- ls01c -->
-    <include file="$(find ls01c)/launch/ls01c.launch">
-    </include>
-
-    <!-- astra RGB-D -->
-    <!--
-    <include file="$(find tr10_launch)/launch/rgbd_astra.launch">
-    </include>
-    -->
-
-    <!-- kinect RGB-D -->
-    <!--
-    <include file="$(find tr10_launch)/launch/rgbd_kinect.launch">
-    </include>
-    -->
   
+    <!--
     <node pkg="map_server" type="map_server" name="map_server"
         args="$(find tr10_launch)/maps/map_2105_leishen.yaml" />
+    -->
+
+    <node pkg="map_server" type="map_server" name="map_server"
+        args="/home/pi/map_small.yaml" />
 
     <node pkg="amcl" type="amcl" name="amcl" >
         <remap from="scan" to="scan" />

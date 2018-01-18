@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <param name="use_sim_time" value="false" />
-    
+
     <!-- motor trd -->
     <include file="$(find trd_diff_controller)/launch/trd_diff_controller.launch">
         <arg name="serialport_name" value="/dev/motor_trd" />
@@ -18,6 +18,8 @@
     <!-- laser leishen -->
     <!-- ls01c -->
     <!--
+    <node pkg="tf" type="static_transform_publisher" name="broadcaster_laser_map"   
+     args="0.26 0 0 3.1416 0 0 /base_link /laser_link 100" />
     <include file="$(find ls01c)/launch/ls01c.launch">
     </include>
     -->

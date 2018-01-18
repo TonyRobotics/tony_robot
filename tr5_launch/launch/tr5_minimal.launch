@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <launch>
     <param name="use_sim_time" value="false" />
+
+    <node pkg="tf" type="static_transform_publisher" name="broadcaster_laser_map"   
+     args="0.09 0 0 3.1416 0 0 /base_link /laser_link 100" />
     
     <!-- motor trd -->
     <include file="$(find trd_diff_controller)/launch/trd_diff_controller.launch">
@@ -16,10 +19,8 @@
     </include>
 
     <!-- ls01c -->
-    <!--   
     <include file="$(find ls01c)/launch/ls01c.launch">
     </include>
-    -->    
 
     <!-- astra RGB-D -->
     <!--   

@@ -58,7 +58,7 @@ int main(int argv, char **argc)
 	ros::Subscriber stop_sub = n.subscribe<std_msgs::Int32>("startOrStop", 10, startStopCB);
 
 	string port = "/dev/ttyUSB1";
-	n.param("laser_port",port,port);
+        ros::param::get("~laser_port", port);
 
 	io_driver driver;
   	int ret = driver.OpenSerial(port.c_str(),B230400);
@@ -67,7 +67,7 @@ int main(int argv, char **argc)
 		ROS_INFO("could not open port:%s",port.c_str());
 	}
 	
-   driver.StartScan();
+        driver.StartScan();
 	bool isStarted = true;
 	
 	double angle[PACKLEN + 10];
