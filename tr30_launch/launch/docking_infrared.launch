@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <arg name="serialport_name" default="/dev/ttyUSB0" />
-    <arg name="baudrate" default="9600"/>
-    <node pkg="tr30_launch" type="docking_infrared.py" name="docking_infrared">
-        <param name="serialport_name" value="$(arg serialport_name)"/>
-        <param name="baudrate" value="$(arg baudrate)"/>
-    </node>
-</launch>
