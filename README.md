@@ -1,6 +1,6 @@
-本驱动包支持Tony Robotics公司轮式底盘，如TR10、TR30等。
+本驱动包支持Tony Robotics公司轮式底盘，如TR05、TR10、TR30等。
 
-可到[RoboStore&reg;](http://cn.robostore.me)网上商城进行选购与其配套的[轮式底盘TR10](http://cn.robostore.me/goods-details/104601512459932935)，[电机驱动TRD](http://cn.robostore.me/goods-details/103801510130627468)，[激光雷达](http://cn.robostore.me)，[深度相机](http://cn.robostore.me/goods-details/104301510191123102)等部件。
+可到[RoboStore&reg;](http://cn.robostore.me)网上商城进行选购与其配套的[轮式底盘TR05、TR10](http://cn.robostore.me/goods-details/104601512459932935)，[电机驱动TRD](http://cn.robostore.me/goods-details/103801510130627468)，[激光雷达](http://cn.robostore.me)，[深度相机](http://cn.robostore.me/goods-details/104301510191123102)等部件。
 
 安装步骤为:
 
